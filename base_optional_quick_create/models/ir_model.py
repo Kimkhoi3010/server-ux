@@ -21,26 +21,26 @@ class IrModel(models.Model):
     # I added back again.
     @staticmethod
     def _patch_method(model_obj, name, method):
-        """ Monkey-patch a method for all instances of this model. This replaces
-            the method called ``name`` by ``method`` in the given class.
-            The original method is then accessible via ``method.origin``, and it
-            can be restored with :meth:`~._revert_method`.
+        """Monkey-patch a method for all instances of this model. This replaces
+        the method called ``name`` by ``method`` in the given class.
+        The original method is then accessible via ``method.origin``, and it
+        can be restored with :meth:`~._revert_method`.
 
-            Example::
+        Example::
 
-                def do_write(self, values):
-                    # do stuff, and call the original method
-                    return do_write.origin(self, values)
+            def do_write(self, values):
+                # do stuff, and call the original method
+                return do_write.origin(self, values)
 
-                # patch method write of model
-                model._patch_method('write', do_write)
+            # patch method write of model
+            model._patch_method('write', do_write)
 
-                # this will call do_write
-                records = model.search([...])
-                records.write(...)
+            # this will call do_write
+            records = model.search([...])
+            records.write(...)
 
-                # restore the original method
-                model._revert_method('write')
+            # restore the original method
+            model._revert_method('write')
         """
         cls = type(model_obj)
         origin = getattr(cls, name)
@@ -52,8 +52,8 @@ class IrModel(models.Model):
 
     @staticmethod
     def _revert_method(model_obj, name):
-        """ Revert the original method called ``name`` in the given class.
-            See :meth:`~._patch_method`.
+        """Revert the original method called ``name`` in the given class.
+        See :meth:`~._patch_method`.
         """
         cls = type(model_obj)
         method = getattr(cls, name)
