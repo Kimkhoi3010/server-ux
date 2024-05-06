@@ -66,6 +66,7 @@ class TierReview(models.Model):
     approve_sequence_bypass = fields.Boolean(
         related="definition_id.approve_sequence_bypass", readonly=True
     )
+    last_reminder_date = fields.Datetime(readonly=True)
 
     @api.depends("model", "res_id")
     def _compute_record_id(self):
@@ -123,3 +124,20 @@ class TierReview(models.Model):
             if not reviewer_field or not reviewer_field._name == "res.users":
                 raise ValidationError(_("There are no res.users in the selected field"))
         return reviewer_field
+
+    def _get_reminder_notification_subtype(self):
+        return "base_tier_validation.mt_tier_validation_reminder"
+
+    def _notify_review_reminder_body(self):
+        delay = (fields.Datetime.now() - self.create_date).days
+        return _("A review has been requested %s days ago.") % (delay)
+
+    def _notify_review_reminder(self):
+        record = self.env[self.model].browse(self.res_id)
+        post = "message_post"
+        if hasattr(record, post):
+            getattr(record.sudo(), post)(
+                subtype_xmlid=self._get_reminder_notification_subtype(),
+                body=self._notify_review_reminder_body(),
+            )
+        self.last_reminder_date = fields.Datetime.now()
