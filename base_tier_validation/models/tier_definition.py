@@ -73,8 +73,8 @@ class TierDefinition(models.Model):
     )
     has_comment = fields.Boolean(string="Comment", default=False)
     notify_reminder_delay = fields.Integer(
-        string="Remind notifier",
-        help="Number of days after which the user should be reminded (0 = no reminder)",
+        string="Send reminder message on pending reviews",
+        help="Number of days after which a message must be posted to remind about pending validation  (0 = no reminder)",
     )
     approve_sequence = fields.Boolean(
         string="Approve by sequence",
@@ -114,7 +114,7 @@ class TierDefinition(models.Model):
                 ("create_date", "<", review_date),
                 ("last_reminder_date", "=", False),
                 ("last_reminder_date", "<", review_date),
-            ]
+            ], limit=1
         )
 
     def _cron_send_review_reminder(self):
@@ -124,4 +124,4 @@ class TierDefinition(models.Model):
         for record in definition_with_reminder:
             review_to_remind = record._get_review_needing_reminder()
             if review_to_remind:
-                review_to_remind._notify_review_reminder()
+                review_to_remind._send_review_reminder()
