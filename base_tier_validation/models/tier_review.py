@@ -1,8 +1,12 @@
 # Copyright 2017-19 ForgeFlow S.L. (https://www.forgeflow.com)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+import logging
+
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
+
+_logger = logging.getLogger(__name__)
 
 
 class TierReview(models.Model):
@@ -157,5 +161,5 @@ class TierReview(models.Model):
         record.activity_schedule(
             act_type_xmlid=self._get_reminder_activity_type(),
             note=self._notify_review_reminder_body(),
-            act_values={"user_id": self.reviewer_ids.id}
+            act_values={"user_id": self.reviewer_ids.id},
         )
