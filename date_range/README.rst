@@ -161,6 +161,15 @@ Contributors
 -  Stefan Rijnhart <stefan@opener.amsterdam>
 -  David Ramia <<@ramiadavid>>
 -  Son Ho <sonhd@trobz.com>
+-  Khoi (Kien Kim) <khoikk@trobz.com>
+
+Other credits
+-------------
+
+The migration of this module from 17.0 to 18.0 was financially supported
+by:
+
+-  Camptocamp.
 
 Maintainers
 -----------

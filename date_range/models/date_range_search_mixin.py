@@ -97,6 +97,8 @@ class DateRangeSearchMixin(models.AbstractModel):
         fields list (while still showing up in the Export widget)
         """
         result = super().get_views(views, options=options)
-        if "date_range_search_id" in result["models"][self._name]:
-            result["models"][self._name]["date_range_search_id"]["string"] = _("Period")
+        if "date_range_search_id" in result["models"][self._name]["fields"]:
+            result["models"][self._name]["fields"]["date_range_search_id"][
+                "string"
+            ] = _("Period")
         return result

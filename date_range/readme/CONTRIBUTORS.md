@@ -5,3 +5,4 @@
 - Stefan Rijnhart \<<stefan@opener.amsterdam>\>
 - David Ramia \<<@ramiadavid>\>
 - Son Ho \<<sonhd@trobz.com>\>
+- Khoi (Kien Kim) \<<khoikk@trobz.com>\>
